@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.com">
+
+<head th:replace="layout::head">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	crossorigin="anonymous"></script>
+
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css">
+<script src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+
+<meta charset="UTF-8">
+
+<title>Usuarios</title>
+</head>
+
+<body>
+	<!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+
+	<div class="offcanvas-menu-overlay"></div>
+	<div class="canvas-open">
+		<i class="icon_menu"></i>
+	</div>
+
+	<!-- Menu Section Begin -->
+	<div th:replace="layout::menuoff"></div>
+	<!-- Menu Section End -->
+
+	<!-- Header Section Begin -->
+	<header th:replace="layout::header-admin"></header>
+
+	<!-- Breadcrumb Section Begin -->
+	<div class="breadcrumb-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="breadcrumb-text">
+						<h2>Usuarios</h2>
+						<div class="bt-option">
+							<a th:href="@{/home}">Home</a> <span>Usuarios</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Breadcrumb Section End -->
+
+
+
+	<div class="registrar_a  mb-4 container">
+
+		<a th:href="@{/usuario_registro}" class="bk-btn text-center">
+
+			<h1>+</h1>
+			<h3 class="mb-4">Registrar Usuario Hotel</h3>
+		</a>
+
+
+
+	</div>
+
+	<div id="tablaes">
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">ID</th>
+					<th scope="col">Nombre</th>
+					<th scope="col">Apellidos</th>
+					<th scope="col">Username</th>
+					<th scope="col">Número de Documento</th>
+					<th scope="col">telefono</th>
+					<th scope="col">Editar</th>
+					<!-- <th scope="col">Eliminar</th> -->
+				</tr>
+			</thead>
+			<tbody th:each="listas : ${usuarios}">
+				<tr>
+					<th th:text="${listas.id}"></th>
+					<td th:text="${listas.nombre}"></td>
+					<td th:text="${listas.apellidos}"></td>
+					<th th:text="${listas.username}"></th>
+					<td th:text="${listas.telefono}"></td>
+					<td th:text="${listas.num_docu}"></td>
+					<td><a href="" th:href="@{'/editUser/'+ ${listas.id}}">Editar</a></td>
+					<!--<td><a href="#"
+						th:onclick="'javascript:confirmDelete(\''+ ${listas.id} +'\');'">Eliminar</a></td>-->
+				</tr>
+
+			</tbody>
+		</table>
+		<div class="alert alert-danger text-center"
+			th:if="${listErrorMessage}" th:text="${listErrorMessage}">Error
+			MEssage</div>
+	</div>
+	<script type="text/javascript">
+		function confirmDelete(id) {
+			$('#deleteModal').modal('show');
+			$("#userIdHiddenInput").val(id);
+		}
+
+		function deleteUser() {
+			var id = $("#userIdHiddenInput").val();
+			window.location = "deleteUser/" + id;
+		}
+	</script>	
+
+	<!-- Footer Section Begin -->
+	<footer th:replace="layout::footer"></footer>
+	<!-- Footer Section End -->
+
+	<!-- Search model Begin -->
+	<div th:replace="layout::search"></div>
+	<!-- Search model end -->
+
+	<!-- Js Plugins -->
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.magnific-popup.min.js"></script>
+	<script src="js/jquery.nice-select.min.js"></script>
+	<script src="js/jquery-ui.min.js"></script>
+	<script src="js/jquery.slicknav.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<script src="js/main.js"></script>
+	<script type="text/javascript"
+		th:src="@{/script/jsweb/descuento/frmdescuento.js}" defer></script>
+
+
+
+</body>
+
+</html>

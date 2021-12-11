@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.com">
+
+<head th:replace="layout::head">
+
+<meta charset="UTF-8">
+<title>Habitaciones</title>
+</head>
+
+<body>
+	<!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+
+	<div class="offcanvas-menu-overlay"></div>
+	<div class="canvas-open">
+		<i class="icon_menu"></i>
+	</div>
+
+	<!-- Menu Section Begin -->
+	<div th:replace="layout::menuoff"></div>
+	<!-- Menu Section End -->
+
+	<!-- Header Section Begin -->
+	<header th:replace="layout::header-user"></header>
+
+	<!-- Header Section End -->
+
+
+
+	<!-- Breadcrumb Section Begin -->
+	<div class="breadcrumb-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="breadcrumb-text">
+						<h2>Historial</h2>
+						<div class="bt-option">
+							<a th:href="@{/home}">Home </a> <span>Historial</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Breadcrumb Section End -->
+
+	
+
+
+	<section class="container text-center" >
+
+
+		
+
+
+			
+<div class="botones_a">
+		<a  id="a_no_confirmado" href="javascript:void(0);" onclick="mostrar_no_confirmados();">No confirmado</a>
+		<a  id="a_cancelada" href="javascript:void(0);" onclick="mostrar_reserva_cancelada();">Reserva Cancelada</a>
+		<a id="a_confirmado" href="javascript:void(0);" onclick="mostrar_confirmada();">Reserva Confirmada</a>
+		
+		<a id="a_cancelado" href="javascript:void(0);" onclick="mostrar_hospedaje_cancelado();">Hospedaje Cancelado</a>
+		<a  id="a_finalizado" href="javascript:void(0);" onclick="mostrar_finalizado();">Hospedaje Finalizado</a>
+		
+
+</div>
+		
+
+						
+
+
+
+
+
+
+<div id="div_no_confirmado">
+<div id="tablaes">
+			
+			<div class="mb-4 mt-5">
+				<h2>Reservas No Confirmadas</h2>
+			</div>	
+			
+			<table class="table" >
+				<thead>
+					<tr>
+						<th scope="col">F. Entrada</th>
+						<th scope="col">F. Salida</th>
+						<th scope="col">N. Habitacion</th>
+						<th scope="col">N. Piso</th>
+						<th scope="col">Noches</th>
+					
+						<th scope="col">Estado de la Reserva</th>
+						<th colspan="3" scope="col">Gestion</th>
+						
+					</tr>
+				</thead>
+				<tbody   th:each="list : ${reservas_usuario}"  th:if="${list.estado_reserva} == 'No'+' '+'confirmado'">
+					
+			
+					
+					<tr >
+						
+				
+						<td class="noconfirmado" th:text="${list.fechaentrada}"></td>
+						<td    th:text="${list.fechasalida}"></td>
+						<td    th:text="${list.idhabitacion}"></td>
+						<td   th:text="${list.numpiso}"></td>
+						<td    th:text="${list.noche_reserva}"></td>
+					
+						<td    th:text="${list.estado_reserva}"></td>
+						
+						
+						<td ><a
+							th:href="@{/historial_usuario/detalle_reserva_usuario/}+${list.idreserva}"
+							class="bk-btn">Gestionar</a></td>
+						<td ><a
+							th:href="@{/historial_usuario/detalle-reserva/}+${list.idreserva}"
+							class="bk-btn">Detalle</a></td>
+					
+					
+						
+					</tr>
+
+				</tbody>
+			</table>
+			<div>
+				<h1 id="no_se_confirma_datos" ></h1>
+			</div>
+		</div>
+</div>
+
+		
+<div id="div_confirmado">
+
+<div id="tablaes">
+			
+			<div class="mb-4 mt-5">
+				<h2>Reservas Confirmadas</h2>
+			</div>	
+			
+			<table class="table" >
+				<thead>
+					<tr>
+						<th scope="col">F. Entrada</th>
+						<th scope="col">F. Salida</th>
+						<th scope="col">N. Habitacion</th>
+						<th scope="col">N. Piso</th>
+						<th scope="col">Noches</th>
+					
+						<th scope="col">Estado de la Reserva</th>
+						<th colspan="3" scope="col">Gestion</th>
+					</tr>
+				</thead>
+				<tbody   th:each="list : ${reservas_usuario}" th:if="${list.estado_reserva} == 'Confirmado'">
+					
+					
+					
+					
+					<tr >
+						
+				
+						<td class="confirmado" th:text="${list.fechaentrada}"></td>
+						<td th:text="${list.fechasalida}"></td>
+						<td th:text="${list.idhabitacion}"></td>
+						<td th:text="${list.numpiso}"></td>
+						<td th:text="${list.noche_reserva}"></td>
+					
+						<td th:text="${list.estado_reserva}"></td>
+						
+						
+						<td ><a
+							th:href="@{/historial_usuario/detalle_reserva_usuario/}+${list.idreserva}"
+							class="bk-btn">Gestionar</a></td>
+						<td ><a
+							th:href="@{/historial_usuario/detalle-reserva/}+${list.idreserva}"
+							class="bk-btn">Detalle</a></td>
+					
+						
+					</tr>
+
+				</tbody>
+			</table>
+			<div>
+				<h1 id="confirma_datos" ></h1>
+			</div>
+						
+		</div>
+
+</div>
+		
+
+<div id="div_canceladas">
+		<div id="tablaes">
+			
+			<div class="mb-4 mt-5">
+				<h2>Reservas Canceladas</h2>
+			</div>	
+			
+			<table class="table" >
+				<thead>
+					<tr>
+						<th scope="col">F. Entrada</th>
+						<th scope="col">F. Salida</th>
+						<th scope="col">N. Habitacion</th>
+						<th scope="col">N. Piso</th>
+						<th scope="col">Noches</th>
+					
+						<th scope="col">Estado de la Reserva</th>
+						<th colspan="3" scope="col">Gestion</th>
+					</tr>
+				</thead>
+				<tbody   th:each="list : ${reservas_usuario}" th:if="${list.estado_reserva} == 'Cancelada'">
+					
+				
+					
+					<tr>	
+						<td class="cancelada" th:text="${list.fechaentrada}"></td>
+						<td th:text="${list.fechasalida}"></td>
+						<td th:text="${list.idhabitacion}"></td>
+						<td th:text="${list.numpiso}"></td>
+						<td th:text="${list.noche_reserva}"></td>
+					
+						<td th:text="${list.estado_reserva}"></td>
+						
+						
+						<td ><a
+							th:href="@{/historial_usuario/detalle_reserva_usuario/}+${list.idreserva}"
+							class="bk-btn">Gestionar</a></td>
+						<td ><a
+							th:href="@{/historial_usuario/detalle-reserva/}+${list.idreserva}"
+							class="bk-btn">Detalle</a></td>
+					</tr>
+
+				</tbody>
+				
+				
+				
+			</table>
+			
+			<div>
+				<h1 id="cancelada_dato" ></h1>
+			</div>
+			
+		</div>
+</div>	
+
+
+<div id="div_cancelado">
+
+<div id="tablaes">
+			
+			<div class="mb-4 mt-5">
+				<h2>Hospedajes Cancelados</h2>
+			</div>	
+			<table class="table" >
+				<thead>
+					<tr>
+						<th scope="col">F. Entrada</th>
+						<th scope="col">F. Salida</th>
+						<th scope="col">N. Habitacion</th>
+						<th scope="col">N. Piso</th>
+						<th scope="col">Noches</th>
+					
+						<th scope="col">Estado de la Reserva</th>
+						<th colspan="3" scope="col">Gestion</th>
+					</tr>
+				</thead>
+				<tbody   th:each="list : ${reservas_usuario}" th:if="${list.estado_reserva} == 'Cancelado'">
+				
+					<tr >
+						
+				
+						<td class="cancelado" th:text="${list.fechaentrada}"></td>
+						<td th:text="${list.fechasalida}"></td>
+						<td th:text="${list.idhabitacion}"></td>
+						<td th:text="${list.numpiso}"></td>
+						<td th:text="${list.noche_reserva}"></td>
+					
+						<td th:text="${list.estado_reserva}"></td>
+						
+						
+						<td ><a
+							th:href="@{/historial_usuario/detalle_reserva_usuario/}+${list.idreserva}"
+							class="bk-btn">Gestionar</a></td>
+						<td ><a
+							th:href="@{/historial_usuario/detalle-reserva/}+${list.idreserva}"
+							class="bk-btn">Detalle</a></td>
+					
+						
+					</tr>
+				
+				</tbody>
+				
+				
+				
+			</table>
+			
+			<div>
+				<h1 id="cancelado_dato" ></h1>
+			</div>
+
+		</div>
+
+
+</div>
+		
+	
+	
+<div id="div_finalizado">
+
+
+
+
+<div id="tablaes">
+			
+		<div class="mb-4 mt-5">
+				<h2>Hospedajes Finalizados</h2>
+			</div>	
+			
+			<table class="table" >
+				<thead>
+					<tr>
+						<th scope="col">F. Entrada</th>
+						<th scope="col">F. Salida</th>
+						<th scope="col">N. Habitacion</th>
+						<th scope="col">N. Piso</th>
+						<th scope="col">Noches</th>
+					
+						<th scope="col">Estado de la Reserva</th>
+						<th colspan="3" scope="col">Gestion</th>
+					</tr>
+				</thead>
+				<tbody   th:each="list : ${reservas_usuario}" th:if="${list.estado_reserva} == 'Finalizado'">
+					<tr>
+						
+				
+						<td class="finalizado" th:text="${list.fechaentrada}"></td>
+						<td th:text="${list.fechasalida}"></td>
+						<td th:text="${list.idhabitacion}"></td>
+						<td th:text="${list.numpiso}"></td>
+						<td th:text="${list.noche_reserva}"></td>
+					
+						<td th:text="${list.estado_reserva}"></td>
+						
+						
+						<td ><a
+							th:href="@{/historial_usuario/detalle_reserva_usuario/}+${list.idreserva}"
+							class="bk-btn">Gestionar</a></td>
+					
+						<td ><a
+							th:href="@{/historial_usuario/detalle-reserva/}+${list.idreserva}"
+							class="bk-btn">Detalle</a></td>
+						
+					</tr>
+
+				</tbody>
+			</table>
+<div>
+				<h1 id="finalizado_dato" ></h1>
+			</div>
+
+		</div>
+
+
+
+
+</div>
+		
+
+	</section>
+
+
+
+
+	<!-- Footer Section Begin -->
+	<footer th:replace="layout::footer"></footer>
+	<!-- Footer Section End -->
+
+	<!-- Search model Begin -->
+	<div th:replace="layout::search"></div>
+	<!-- Search model end -->
+
+	<!-- Js Plugins -->
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.magnific-popup.min.js"></script>
+	<script src="js/jquery.nice-select.min.js"></script>
+	<script src="js/jquery-ui.min.js"></script>
+	<script src="js/jquery.slicknav.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<script src="js/main.js"></script>
+	<script type="text/javascript"
+		th:src="@{/script/jsweb/tablas/frmtablas.js}" defer></script>
+</body>
+
+</html>

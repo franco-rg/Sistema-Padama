@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.com">
+<head th:replace="layout::head">
+<title>Reservar Habitacion por Categoria Seleccionada</title>
+<meta charset="UTF-8">
+</head>
+<body>
+
+	<div class="offcanvas-menu-overlay"></div>
+	<div class="canvas-open">
+		<i class="icon_menu"></i>
+	</div>
+
+	<!-- Menu Section Begin -->
+	<div th:replace="layout::menuoff"></div>
+	<!-- Menu Section End -->
+
+	<!-- Header Section Begin -->
+	<header th:replace="layout::header-user"></header>
+	<!-- Header Section End -->
+
+	
+
+
+
+	<div class="container">
+		<br />
+
+		<div class="col-lg-8 offset-lg-0">
+			<h4>
+				<strong>Habitacion</strong>
+			</h4>
+			<hr />
+
+
+			
+
+			<div class="form-row contact-form">
+
+				<div class="form-group col-md-6" th:object=${ubicar_habi}>
+					<label for="txtcategoria">Categoria (Seleccionada)</label> <input
+						th:field="*{categoria}" type="text" class="form-control"
+						readonly="readonly">
+				</div>
+
+
+
+
+				<div class="form-group col-md-6">
+					<label>Precio (xTermporada):</label> <input type="number"
+						class="form-control" readonly="readonly" th:value="${precio}" id="precio_habi">
+				</div>
+
+
+
+
+				<div class="form-group col-md-6" th:object=${ubicar_habi}>
+					<label for="txtpiso">Piso:</label> <input th:field="*{numpiso}"
+						type="text" class="form-control" readonly="readonly">
+				</div>
+
+
+
+				<div class="form-group col-md-6" th:object=${ubicar_habi}>
+					<label for="txtpiso">Habitacion:</label> <input
+						th:field="*{idhabitacion}" id="idinputhabi" type="text"
+						class="form-control" readonly="readonly">
+				</div>
+			</div>
+
+
+
+
+		
+
+
+			<form th:object=${reserva} th:action="@{/actualizar-reserva}"
+				method="post"    onsubmit="return validar_registro_pago();">
+
+				
+				
+				<div id="contenido_reserva">
+
+				
+				
+					<input name="id_habitacion_antigua" 
+						th:value="${reserva.idhabitacion}" type="text" class="form-control"
+						 hidden>
+	
+				
+
+
+				<div class="form-group col-md-6">
+					<input th:field="*{idreserva}" id="idinputhabioculto" type="text"
+						class="form-control" hidden>
+				</div>
+
+
+
+
+
+
+				<div class="form-row contact-form">
+
+					<div class="form-group col-md-6">
+						<label class="form-label" for="fechaentrada">Desde
+							(Hospedaje): </label> <input value="2021-01-01" min="2020-01-01" name="fechainis"
+							max="9999-12-30" type="date" th:field="*{fechaentrada}"
+							class="itemFecha" id="fechaini" >
+						<span id="errorfechainicio" class="text-danger"></span>
+					</div>
+
+					<div class="form-group col-md-6">
+						<label>Hasta (Hospedaje):</label> <input value="2021-01-01"
+							min="2020-01-01" max="9999-12-30" type="date"
+							th:field="*{fechasalida}" class="itemFecha"
+							id="fechafi">
+							<span id="errorfechafinal" class="text-danger"></span>
+					</div>
+
+
+
+					<div class="form-group col-md-6">
+						<label for="txthabitacion">Noches:</label> <input
+							placeholder="Noches de Reserva" th:field="*{noche_reserva}"
+							type="text" class="form-control" id="noches">
+					</div>
+
+					<!-- RESERVA: ENTRADA OCULTA -->
+					<div class="form-group col-md-6">
+
+						<input name="id_habitacion" th:value="${ubicar_habi.idhabitacion}"
+							type="text" class="form-control" hidden>
+					</div>
+
+
+
+
+				</div>
+
+
+
+				<hr />
+				<h4>
+					<strong>Servicios Adicionales</strong>
+				</h4>
+				<span>Actualmente solo se estan mostrando los servicios <strong>activos.*</strong></span>
+
+
+				
+					<input type="text" id="total" class="valor_suma" readonly
+						value="0.0" hidden/> 
+						
+					<input type="text" id="total_seleccionados" class="valor_suma_seleccionados" readonly
+						value="0.0" hidden/> 
+						
+					<input type="text" id="total_hxt"
+						class="valor_suma" readonly value="0.0" hidden/> 
+					<input
+						type="text" id="suma_servicios" class="valor_suma_servicios"
+						readonly th:value="${precio_servicios}" hidden/>
+
+					<input
+						type="text" id="precio_base" class="valor_suma_servicios"
+						readonly value="0.0" hidden/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					<h4 class="mt-3">Servicios Seleccionados</h4>
+
+					<section class="aboutus-page-section-habitacion mt-0">
+
+						<div>
+							<input name="myParam[]" th:type="checkbox"
+								th:value="no_selecciono" checked hidden>
+
+							<table class="table mt-4" id="tbl-buyss">
+								<thead>
+									<tr>
+										<th>Nombre</th>
+										<th>Precio</th>
+										<th>Seleccionar<input type="checkbox" hidden /></th>
+									</tr>
+								</thead>
+								<tbody>
+
+									<tr th:each="reseserv : ${reserxserv}">
+										<td th:text="${reseserv.nombreservicio}"></td>
+										<td hidden>1</td>
+										<td class="cantidad" th:text="${reseserv.precio}"></td>
+										<td><input  class="checkbox" name="myParam[]" th:type="checkbox"
+											th:value="${reseserv.idservicios}" checked></td>
+									</tr>
+									<tr th:each="listar_ser : ${listar_servicios}"
+										th:if="${listar_ser.estado} != 'Eliminar'">
+										<td th:text="${listar_ser.nombreservicio}"></td>
+										<td hidden>1</td>
+										<td  class="cantidad" th:text="${listar_ser.precio}"></td>
+										<td><input class="checkbox"  name="myParam[]" th:type="checkbox"
+											th:value="${listar_ser.idservicios}"></td>
+									</tr>
+									
+								</tbody>
+							</table>
+
+
+
+
+						</div>
+
+					</section>
+
+					<h4 hidden class="mt-3">Servicios No Seleccionados</h4>
+					<section class="aboutus-page-section-habitacion mt-0" hidden>
+
+						<div>
+							
+							<table class="table mt-4" id="tbl-buys">
+								<thead>
+									<tr>
+										<th>Nombre</th>
+										<th>Precio</th>
+										<th>Seleccionar<input type="checkbox" hidden /></th>
+									</tr>
+								</thead>
+								<tbody>
+
+									<tr th:each="listar_ser : ${listar_servicios}"
+										th:if="${listar_ser.estado} != 'Eliminar'">
+										<td th:text="${listar_ser.nombreservicio}"></td>
+										<td hidden>1</td>
+										<td  th:text="${listar_ser.precio}"></td>
+										<td><input  name="myParam[]" th:type="checkbox"
+											th:value="${listar_ser.idservicios}"></td>
+									</tr>
+								</tbody>
+							</table>
+
+
+
+
+						</div>
+
+					</section>
+
+
+
+
+
+
+
+
+
+				<div>
+					<hr />
+					<h3>
+						<strong>Datos Personales</strong>
+					</h3>
+					<span>Completando los siguientes campos, <strong>reservando
+							a nombre de:*</strong></span>
+				</div>
+
+				<div class="form-row contact-form">
+					<div class="form-group col-md-6">
+						<br /> <label>Nombre (Cliente Titular):</label> <input
+							th:field="*{nombreuser}" type="text" class="form-control" id="nombre"
+							placeholder="Tu Nombre"> <span id="errornombre"
+							class="text-danger"></span>
+					</div>
+
+					<div class="form-group col-md-6">
+						<br /> <label>Apellidos (Cliente Titular):</label> <input
+							th:field="*{apellidouser}" type="text" class="form-control" id="apellido"
+							placeholder="Tu Apellido"> <span id="errorapellido"
+							class="text-danger"></span>
+					</div>
+
+					<br />
+
+					<div class="form-group col-md-6">
+						<label>Correo (Cliente Titular):</label> <input
+							th:field="*{correouser}" type="text"
+							placeholder="Correo Electronico" class="form-control" id="correo"><span
+							id="errorcorreo" class="text-danger"></span>
+					</div>
+
+					<div class="form-group col-md-6">
+						<label>N. Telefono (Cliente Titular):</label> <input
+							th:field="*{telefonouser}" type="number" class="form-control" id="telefono"
+							placeholder="Celular"> <span id="errortelefono"
+							class="text-danger"></span>
+					</div>
+
+					<br />
+
+					<div class="form-group col-md-6">
+						<label for="txthabitacion"></label> <input placeholder="Usuario"
+							th:field="*{idusuario}" type="text" class="form-control" hidden>
+					</div>
+
+
+				</div>
+				</div>
+
+
+				<div id="contenido_pago">
+				
+					<h4>
+						<strong>Se requiere Pagar el siguiente monto:</strong>
+					</h4>
+					<hr />
+					<div class="form-row contact-form">
+						<div class="form-group col-md-6">
+							<label class="mt-5">Precio Anterior:</label> <input type="text"
+								id="precio_anterior_p" class="form-control" readonly value="0.0"
+								/>
+						</div>
+					</div>
+
+					<div class="form-row contact-form">
+						<div class="form-group col-md-6">
+							<label class="mt-5">Precio Actual: </label> <input type="text"
+								id="precio_actual_p" class="form-control" readonly value="0.0"/>
+						</div>
+					</div>
+
+				
+
+					<div class="form-row contact-form">
+						<div class="form-group col-md-6">
+							<label class="mt-5">Total:</label> <input type="text"
+								id="spTotal" class="form-control" readonly value="0.0"
+								name="precio" />
+						</div>
+					</div>
+
+
+
+					<div class="form-row contact-form">
+						<label for="validationCustom01" class="form-label">Propietario:</label>
+						<input type="text" class="form-control" id="propietarios"
+							name="propietarios" placeholder="Ingrese Nombre del Propietario" />
+						<span id="errorpropietarios" class="text-danger"></span>
+					</div>
+
+					<div class="form-row contact-form" id="card-number-field">
+						<label for="cardNumber validationCustom02">Numero de
+							tarjeta:</label> <input type="number" class="form-control"
+							id="numero_tarjeta" name="numero_tarjetas"
+							placeholder="Ingrese Numero de la tarjeta" /> <span
+							id="errornumero_tarjeta" class="text-danger"></span>
+					</div>
+
+
+
+
+					<div class="form-group" id="expiration-date">
+						<label for="validationCustom04" class="form-label">Fecha
+							de Caducidad:</label> <select class="form-select" id="mes"
+							name="vencimiento_mes">
+							<option selected disabled value="">Mes</option>
+							<option value="Enero">Enero</option>
+							<option value="Febrero">Febrero</option>
+							<option value="Marzo">Marzo</option>
+							<option value="Abril">Abril</option>
+							<option value="Mayo">Mayo</option>
+							<option value="Junio">Junio</option>
+							<option value="Julio">Julio</option>
+							<option value="Agosto">Agosto</option>
+							<option value="Septiembre">Septiembre</option>
+							<option value="Octubre">Octubre</option>
+							<option value="Noviembre">Noviembre</option>
+							<option value="Deciembre">Deciembre</option>
+						</select> <select class="form-select" id="ano" name="vencimiento_años">
+							<option selected disabled value="">Año</option>
+							<option value="2021">2021</option>
+							<option value="2022">2022</option>
+							<option value="2023">2023</option>
+							<option value="2024">2024</option>
+							<option value="2025">2025</option>
+							<option value="2026">2026</option>
+						</select>
+
+					</div>
+					<span id="error_año_mes" class="text-danger"></span>
+
+					<div class="form-row contact-form" id="card-number-field">
+						<label for="cardNumber validationCustom02">CVV:</label> <input
+							type="number" class="form-control" id="cvv"
+							placeholder="Ingrese Numero de la tarjeta" name="cvv" />
+					</div>
+					<span id="error_cvv" class="text-danger"></span>
+
+
+
+
+
+
+
+
+
+
+				</div>
+				
+				
+				
+				
+				
+				
+				
+
+				<div id="no_paga">
+
+					<h4>
+						<strong>No se requiere Pago</strong>
+					</h4>
+					<hr />
+					<div class="form-row contact-form">
+						<div class="form-group col-md-6">
+							<label class="mt-5">Precio Anterior:</label> <input type="text"
+								id="precio_anterior_np" class="form-control" readonly value="0.0"
+								/>
+						</div>
+					</div>
+
+					<div class="form-row contact-form">
+						<div class="form-group col-md-6">
+							<label class="mt-5">Precio Actual: </label> <input type="text"
+								id="precio_actual_np" class="form-control" readonly value="0.0"
+								/>
+						</div>
+					</div>
+
+
+					
+
+
+
+
+				</div>
+
+				<div id="no_paga_devolucion">
+
+					<h4>
+						<strong>No se requiere Pago</strong>
+					</h4>
+					<hr />
+					<div class="form-row contact-form">
+						<div class="form-group col-md-6">
+							<label class="mt-5">Precio Anterior:</label> <input type="text"
+								id="precio_anterior_npd" class="form-control" readonly value="0.0"
+								/>
+						</div>
+					</div>
+
+					<div class="form-row contact-form">
+						<div class="form-group col-md-6">
+							<label class="mt-5">Precio Actual:</label> <input type="text"
+								id="precio_actual_npd" class="form-control" readonly value="0.0"
+								/>
+						</div>
+					</div>
+
+					
+					<div class="form-row contact-form">
+						<div class="form-group col-md-6">
+							<label class="mt-5">Se le realizara una devolucion de: </label> <input type="text"
+								id="devolucion_npd" class="form-control" readonly value="0.0"
+								name="devolucion" />
+						</div>
+					</div>
+
+					
+
+				</div>
+
+
+
+				<div class="form-row contact-form">
+					<button class="btn btn-secondary" type="submit" id="boton_reservar">Reservar</button>
+				</div>
+
+
+				<div class="form-row contact-form mt-3">
+					<a id="boton_calcular" onclick="sumar();" class="btn btn-secondary">Comprobar
+						Pago</a>
+				</div>
+
+				<div class="form-row contact-form mt-3">
+					<a id="modificar_reserva" onclick="modificar_reserva();"
+						class="btn btn-secondary">Modificar Reserva</a>
+				</div>
+				
+				
+				
+			</form>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		
+			
+			
+			
+			
+			
+		</div>
+	</div>
+
+
+	<form>
+		<!-- 		<div th:each="reseserv : ${reserxserv}"> -->
+		<!-- 			<label th:text="${reseserv.idservicios}"></label> <input -->
+		<!-- 				name="myParam[]" th:type="checkbox" -->
+		<!-- 				th:value="${reseserv.idservicios}" checked> -->
+
+		<!-- 			<div th:each="listserv : ${listservicios}"> -->
+		<!-- 				<div th:each="reseserv : ${reserxserv}"> -->
+		<!-- 					<div th:if=" ${reseserv.idservicios} != ${listserv.idservicios}"> -->
+		<!-- 						<label th:text="${listserv.idservicios}"></label> <input -->
+		<!-- 							name="myParam[]" th:type="checkbox" -->
+		<!-- 							th:value="${listserv.idservicios}"> -->
+		<!-- 					</div> -->
+		<!-- 				</div> -->
+		<!-- 			</div> -->
+		<!-- 		</div> -->
+
+
+
+
+
+
+
+
+		<!-- 		<div th:each="listserv : ${reserxserv}"> -->
+		<!-- 			<label th:text="${listserv.idservicios}"></label>  -->
+		<!-- 			<input name="myParam[]" th:type="checkbox" th:value="${listserv.idservicios}" checked> -->
+		<!-- 		</div> -->
+	</form>
+
+	<br />
+	<br />
+	<br />
+
+	<!-- Footer Section Begin -->
+	<footer th:replace="layout::footer"></footer>
+	<!-- Footer Section End -->
+
+	<!-- Search model Begin -->
+	<div th:replace="layout::search"></div>
+	<!-- Search model end -->
+
+
+	<script type="text/javascript"
+		th:src="@{/script/jquery/jQuery_v3.6.0.js}"></script>
+
+	<!-- REFERENCIA SCRIPT -->
+	<script type="text/javascript"
+		th:src="@{/script/jsweb/reserva/vistareserva2.js}"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.com">
+<head th:replace="layout::head">
+</head>
+<body>
+
+
+
+	<!-- Menu Section Begin -->
+	<div th:replace="layout::menuoff"></div>
+	<!-- Menu Section End -->
+
+	<!-- Header Section Begin -->
+	<header th:replace="layout::header-admin"></header>
+	<!-- Header Section End -->
+
+
+
+	<!-- Breadcrumb Section Begin -->
+	<div class="breadcrumb-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="breadcrumb-text">
+						<h2>Detalle Hospedaje</h2>
+						<div class="bt-option">
+							<a th:href="@{/finalizar_hospedaje}">Registro de Salida</a> <span>Detalle
+								Registro de Salida</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="contenedor-form">
+
+
+		<div class="formus mb-0"
+			th:if="${detalle_reserva_encontrada.estado_reserva} == 'Confirmado'">
+			<h2 class="text-center mt-5 mb-2">Registrar Salida</h2>
+			
+			
+			
+			
+			<form class="mt-0" th:action="@{/finalizar_reserva}"
+				th:object=${detalle_reserva_encontrada} autocomplete="off"
+				method="post" onsubmit="return validar_finalizar_reserva();">
+
+				<input type="hidden" th:field="*{idreserva}" class="registro"
+					placeholder="Ingrese el ID" id="idreserva"> <input
+					type="submit" class="btn-registrar" value="Finalizar Estadia">
+				<div class="text-center">
+					<span id="errorconfirmar" class="text-danger"></span>
+				</div>
+
+
+			</form>
+
+			<form class="mt-0" th:action="@{/cancelar_reserva_finalizar}"
+				th:object=${detalle_reserva_encontrada} autocomplete="off"
+				method="post" onsubmit="return validar_cancelar_reserva();">
+
+				<input type="hidden" th:field="*{idreserva}" class="registro"
+					placeholder="Ingrese el ID" id="idreserva"> <input
+					type="submit" class="btn-registrar" value="Cancelar Estadia">
+
+
+			</form>
+
+		</div>
+
+		<div class="formus mb-0 text-center">
+			<h2 class="text-center mt-5 mb-2">Cliente</h2>
+			<a href="javascript:void(0);" onclick="mostrar_informacioncliente();">Ver
+				Informacion de Cliente</a>
+		</div>
+
+		<form id="informacion_cliente" class="formus mt-0"
+			th:object=${detalle_reserva_encontrada} autocomplete="off">
+
+			<label class="form-label mt-3" for="nombre">Nombre: </label> <input
+				type="text" th:field="*{nombreuser}" class="registro" readonly>
+
+			<label class="form-label mt-3" for="apellidos">Apellidos: </label> <input
+				type="text" th:field="*{apellidouser}" class="registro" readonly>
+
+			
+
+			<label class="form-label mt-3" for="telefono">Telefono: </label> <input
+				type="text" th:field="*{correouser}" class="registro" readonly>
+			<div class="text-center"></div>
+			<div class="text-center mt-3">
+				<a href="javascript:void(0);"
+					onclick="ocultar_informacioncliente();">Ocultar Informacion</a>
+			</div>
+
+
+		</form>
+
+
+
+
+
+		<div class="formus text-center mb-0">
+			<h2 class="text-center mt-5 mb-2">Reserva</h2>
+			<a href="javascript:void(0);"
+				onclick="mostrar_informacion_reserva();">Ver Informacion de
+				Reserva</a>
+
+		</div>
+
+
+		<form class="formus mt-0" th:object=${detalle_reserva_encontrada}
+			autocomplete="off" id="informacion_reserva">
+
+		 <label
+				class="form-label" for="fechaentrada">F. Inicio: </label> <input
+				value="2021-01-01" min="2020-01-01" max="9999-12-30" type="date"
+				id="fechainicio" th:field="*{fechaentrada}" class="registro"
+				readonly> 
+				
+				
+				<label class="form-label" for="fecha_salidsa">F.
+				Final: </label> <input value="2021-01-01" min="2020-01-01" max="9999-12-30"
+				type="date" th:field="*{fechasalida}" class="registro" readonly id="fechasalida">
+
+			<label class="form-label mt-3" for="cantidad">Noches: </label> <input
+				type="text" th:field="*{noche_reserva}" class="registro" readonly>
+
+			<div class="text-center mt-3">
+				<a href="javascript:void(0);"
+					onclick="ocultar_informacion_reserva();">Ocultar Informacion</a>
+			</div>
+
+
+		</form>
+
+
+		<div class=" formus text-center mb-0">
+			<h2 class="text-center mt-5 mb-2">Habitacion</h2>
+			<a href="javascript:void(0);"
+				onclick="mostrar_informacion_habitacion();">Ver Informacion de
+				Habitacion</a>
+		</div>
+
+		<form class="formus mt-0" th:object=${detalle_reserva_encontrada}
+			autocomplete="off" id="informacion_habitacion">
+
+
+			<label class="form-label mt-3" for="categoria">Categoria: </label> <input
+				type="text" th:field="*{categoria}" class="registro" readonly>
+
+			<label class="form-label mt-3" for="idhabitacion">N.
+				Habitacion: </label> <input type="text" th:field="*{idhabitacion}"
+				class="registro" readonly> <label class="form-label mt-3"
+				for="numpiso">N. Piso: </label> <input type="text"
+				th:field="*{numpiso}" class="registro" readonly>
+
+
+			<div class="text-center mt-3">
+				<a href="javascript:void(0);"
+					onclick="ocultar_informacion_habitacion();">Ocultar Informacion</a>
+			</div>
+
+		</form>
+
+
+
+		<div class=" formus text-center mb-0">
+			<h2 class="text-center mt-5 mb-2">Servicios</h2>
+			<a href="javascript:void(0);"
+				onclick="mostrar_informacion_servicios();">Ver Informacion de
+				Servicios</a>
+		</div>
+
+
+		<form class="formus mt-0" th:object=${detalle_reserva_encontrada}
+			autocomplete="off" id="informacion_servicios">
+
+			<table class="table mt-4">
+				<thead>
+					<tr>
+						<th scope="col">Servicio</th>
+
+						<th scope="col">Precio</th>
+
+					</tr>
+				</thead>
+				<tbody th:each="lista_s : ${detalle_reserva_servicio_encontrada}">
+					<tr>
+						<th th:text="${lista_s.nombreservicio}"></th>
+						<td th:text="${lista_s.precio}"></td>
+
+
+					</tr>
+
+				</tbody>
+			</table>
+
+			<div class="text-center mt-3">
+				<a href="javascript:void(0);"
+					onclick="ocultar_informacion_servicios();">Ocultar Informacion
+				</a>
+			</div>
+
+
+		</form>
+
+
+
+
+
+		<div class="formus text-center mb-0">
+			<h2 class="text-center mt-5 mb-2">Pago</h2>
+			<a href="javascript:void(0);" onclick="mostrar_informacion_pago();">Ver
+				Informacion de Pago</a>
+		</div>
+
+		<form class="formus mt-0"  
+			autocomplete="off" id="informacion_pago">
+			
+			
+			<table class="table mt-4">
+				<thead>
+					<tr>
+						<th scope="col">F. Pago</th>
+
+						<th scope="col">Monto</th>
+
+					</tr>
+				</thead>
+				<tbody th:each="p : ${pagos}">
+					<tr>
+						<th th:text="${p.fecha_pago}"></th>
+						<td th:text="${p.precio}"></td>
+
+
+					</tr>
+
+				</tbody>
+			</table>
+
+			<div class="text-center mt-3">
+				<a href="javascript:void(0);" onclick="ocultar_informacion_pago();">Ocultar
+					Informacion </a>
+			</div>
+
+		</form>
+
+
+
+
+
+	</div>
+
+
+	<!-- Footer Section Begin -->
+	<footer th:replace="layout::footer"></footer>
+	<!-- Footer Section End -->
+
+	<!-- Search model Begin -->
+	<div th:replace="layout::search"></div>
+	<!-- Search model end -->
+
+	<script type="text/javascript"
+		th:src="@{/script/jquery/jQuery_v3.6.0.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/script/jsweb/detalle_reserva/frmdetalle_reserva.js}" defer></script>
+
+
+
+</body>
+</html>

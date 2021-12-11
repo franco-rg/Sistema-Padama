@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.com">
+<head th:replace="layout::head">
+<title>Reservar Habitacion por Categoria Seleccionada</title>
+</head>
+<link rel="stylesheet" th:href="@{/css/css/all.min.css}">
+<link rel="stylesheet" th:href="@{/css/style.css}">
+<body>
+
+	<div class="offcanvas-menu-overlay"></div>
+	<div class="canvas-open">
+		<i class="icon_menu"></i>
+	</div>
+
+	<!-- Menu Section Begin -->
+	<div th:replace="layout::menuoff"></div>
+	<!-- Menu Section End -->
+
+	<!-- Header Section Begin -->
+	<header th:replace="layout::header-user"></header>
+	<!-- Header Section End -->
+	
+	<div class="container text-center" >
+	<br />
+		<h2 style="font-weight: bold;" th:text="${cate_select.categoria}"></h2>
+		<span>*Mostrando Habitaciones Disponibles por la Categoria Seleccionada*</span>
+	<br />
+	</div>
+
+
+
+	<div class="container">
+	<br />
+		<div id="tablaes">
+			
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">Habitacion</th>
+						<th scope="col">Disponibilidad</th>
+						<th scope="col">Piso</th>
+						<th scope="col">Reservar</th>
+					</tr>
+				</thead>
+				<tbody th:each="habitacion_ListarCate : ${listhabitacion}">
+					<tr>
+						<th th:text="${habitacion_ListarCate.idhabitacion}"></th>
+						<th th:text="${habitacion_ListarCate.nomestado}"></th>
+						<th th:text="${habitacion_ListarCate.numpiso}"></th>
+						<td>
+							<a th:href="@{/categoria_listar/reservar-habitacion/formulario-de-reserva/}+${habitacion_ListarCate.idhabitacion}">
+						   	   <button class="btn btn-hotel fas fa-bookmark"></button>
+						    </a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+	</div>
+
+	<br />
+	<br />
+	<br />
+
+	<!-- Footer Section Begin -->
+	<footer th:replace="layout::footer"></footer>
+	<!-- Footer Section End -->
+
+	<!-- Search model Begin -->
+	<div th:replace="layout::search"></div>
+	<!-- Search model end -->
+
+
+	<script type="text/javascript"
+		th:src="@{/script/jquery/jQuery_v3.6.0.js}"></script>
+</body>
+</html>

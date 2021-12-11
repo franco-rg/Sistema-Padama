@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.com">
+<head th:replace="layout::head">
+<title>Reservar Habitacion por Categoria Seleccionada</title>
+<meta charset="UTF-8">
+</head>
+<body>
+
+	<div class="offcanvas-menu-overlay"></div>
+	<div class="canvas-open">
+		<i class="icon_menu"></i>
+	</div>
+
+	<!-- Menu Section Begin -->
+	<div th:replace="layout::menuoff"></div>
+	<!-- Menu Section End -->
+
+
+
+
+	<div class="container">
+		<br /><br /><br />
+		<a href="#"> <img th:src="@{/img/logo.png}" alt=""></a>
+		<br /><br /><br />
+		
+		<div class="col-lg-9 offset-lg-0">
+			<h4 style="font-weight: bold;"
+				th:text="'Detalle de Reserva N° ' + ${reserva.idreserva}"></h4>
+			<span>La informacion mostrada corresponde a la reserva
+				generada por el usuario <strong>[[${#httpServletRequest.remoteUser}]].</strong>
+			</span>
+			<hr />
+
+
+			<div style="max-width: 1000px;">
+				<div class="row no-gutters">
+					<div class="col-md-12">
+						<div class="card-body">
+
+
+							<dl class="row">
+
+								<dd
+									th:text="'Esta reserva se realizo a nombre de ' +  
+									${reserva.nombreuser} + ' ' + ${reserva.apellidouser} + ' con numero de celular ' 
+									+ ${reserva.telefonouser} + ' y con correo identificante ' + ${reserva.correouser} + '.'"
+									class="col-sm-10"></dd>
+
+								<dd>
+									<br />
+									<br />
+									<br />
+								</dd>
+
+								<dt style="text-decoration: underline;" class="col-sm-10">Habitacion</dt>
+								<br />
+								<br />
+
+								<dt class="col-sm-3">Habitacion</dt>
+								<dd th:text="${reserva.idhabitacion}" class="col-sm-9"></dd>
+
+								<dt class="col-sm-3">Categoria</dt>
+								<dd th:text="${reserva.categoria}" class="col-sm-9"></dd>
+
+								<dt class="col-sm-3">Noches</dt>
+								<dd th:text="${reserva.noche_reserva}" class="col-sm-9"></dd>
+
+
+								<dt class="col-sm-3">Desde</dt>
+								<dd class="col-sm-9">
+									<dl class="row">
+										<dd th:text="${reserva.fechaentrada}" class="col-sm-4"></dd>
+										<dt class="col-sm-2">Hasta</dt>
+										<dd th:text="${reserva.fechasalida}" class="col-sm-4"></dd>
+									</dl>
+								</dd>
+
+								<dt style="text-decoration: underline;" class="col-sm-10">Servicios Contratados
+								</dt>
+
+
+								<dd class="col-sm-9">
+									<div>
+
+										<table class="table mt-4" id="tbl-buys">
+											<thead>
+												<tr>
+													<th>Nombre</th>
+													<th>Precio</th>
+												</tr>
+											</thead>
+											<tbody>
+
+												<tr th:each="list : ${listservicios}">
+													<td th:text="${list.nombreservicio}"></td>
+													<td th:text="${list.precio}"></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</dd>
+
+								<dt style="text-decoration: underline;" class="col-sm-10">
+									Informacion de Pago<br />
+									<br />
+								</dt>
+								
+								<dt class="col-sm-3">Monto Total</dt>
+								<dd th:text="'S/. ' + ${listpago.preciototal}" class="col-sm-9"></dd>
+													
+							</dl>
+							<div>
+								<input class="btn btn-secondary" type="submit" value="Imprimir" onclick="javascript:window.print()" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			</div>
+		</div>
+
+
+
+
+
+
+	<br />
+	<br />
+	<br />
+
+
+	<!-- Footer Section End -->
+
+	<!-- Search model Begin -->
+	<div th:replace="layout::search"></div>
+	<!-- Search model end -->
+
+
+	<script type="text/javascript"
+		th:src="@{/script/jquery/jQuery_v3.6.0.js}"></script>
+
+	<!-- REFERENCIA SCRIPT -->
+	<script type="text/javascript"
+		th:src="@{/script/jsweb/reserva/vistareserva.js}"></script>
+
+
+
+</body>
+</html>

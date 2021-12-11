@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.com">
+<head th:replace="layout::head">
+</head>
+<body>
+
+
+	
+
+    
+    <!-- Menu Section Begin -->
+    <div th:replace="layout::menuoff" ></div>
+    <!-- Menu Section End -->
+    
+    <!-- Header Section Begin -->
+    <header th:replace="layout::header-admin" ></header>
+    <!-- Header Section End -->
+
+
+	<!-- Breadcrumb Section Begin -->
+	<div class="breadcrumb-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="breadcrumb-text">
+						<h2>Actualizar Piso</h2>
+						<div class="bt-option">
+							<a th:href="@{/listar_nivel}">Pisos</a> <span>Actualizar Piso</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="contenedor-form">
+		<form class="formus" th:action="@{/actua_nivel}" th:object=${nivel_encontrado} autocomplete="off" method="post" onsubmit="return actualizar_nivel();">
+				
+				<input
+					type="hidden" th:field="*{idnivel}" class="registro" placeholder="Ingrese el ID" id="idnivel">
+				
+				<label class="form-label mt-3" for="numpiso">Nombre: </label> <input
+					type="text" th:field="*{numpiso}" class="registro" placeholder="Ingrese el Piso" id="numpiso">
+			<span  id="errornumpiso" class="text-danger"></span>	
+
+			
+				<label class="form-label" for="capacidad">Descripcion: </label>
+
+				<input th:field="*{capacidad}" class="registro-text" placeholder="Ingrese la Descripcion" id="capacidad"></input>
+			<span  id="errorcapacidad" class="text-danger"></span>	
+
+			
+
+				<label class="form-label" for="estado">Disponibilidad: </label>
+				<select class="p-0 registro form-control" id= "estado" th:field="*{estado}" >
+						<option hidden value="">Selecciona una opcion</option>
+						<option th:value="Habilitado">Habilitado</option>
+						<option  th:value="Deshabilitado">Deshabilitado</option>
+				</select>
+				<span  id="errorestado" class="text-danger"></span>	
+				 
+					
+			
+			
+
+			
+			<input type="submit" class="btn-registrar" value="Guardar">
+			<script type="text/javascript" th:src="@{/script/jsweb/Nivel/frmnivel.js}" ></script>
+
+		</form>
+
+
+	</div>
+
+
+
+   <!-- Footer Section Begin -->
+    <footer th:replace="layout::footer" ></footer>
+    <!-- Footer Section End -->
+
+    <!-- Search model Begin -->
+    <div th:replace="layout::search" ></div>
+    <!-- Search model end -->
+
+<script type="text/javascript" th:src="@{/script/jquery/jQuery_v3.6.0.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/jquery.magnific-popup.min.js}"></script>
+    <script th:src="@{/js/jquery.nice-select.min.js}"></script>
+    <script th:src="@{/js/jquery-ui.min.js}"></script>
+    <script th:src="@{/js/jquery.slicknav.js}"></script>
+    <script th:src="@{/js/owl.carousel.min.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+	<script type="text/javascript" th:src="@{/script/jsweb/temporada/frmtemporada.js}" ></script>
+
+</body>
+</html>

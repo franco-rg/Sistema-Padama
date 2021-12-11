@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.com">
+<head th:replace="layout::head">
+</head>
+<body>
+
+
+	
+
+    
+    <!-- Menu Section Begin -->
+    <div th:replace="layout::menuoff" ></div>
+    <!-- Menu Section End -->
+    
+    <!-- Header Section Begin -->
+    <header th:replace="layout::header-admin" ></header>
+    <!-- Header Section End -->
+
+
+	<!-- Breadcrumb Section Begin -->
+	<div class="breadcrumb-section" th:object="${descu}">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="breadcrumb-text">
+						<h2>Actualizar Descuento</h2>
+						<div class="bt-option">
+							<a href="#">Descuentos por Categoria</a> <span>Actualizar Descuento</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="contenedor-form">
+		<form class="formus" th:action="@{/actualizar_tempc}" th:object=${descu} autocomplete="off" method="post" onsubmit="return validar_registrohdesc();">
+				
+				
+				 
+					
+				<input
+					type="hidden" th:field="*{idprecio}" class="registro" placeholder="Ingrese el ID" id="idprecio">
+				
+				<label class="form-label mt-3" for="descuento">Descuento: </label> <input
+					type="text" th:field="*{descuento}" class="registro" placeholder="Ingrese el Piso" id="descuento">
+			<span  id="errordescuento" class="text-danger"></span>	
+
+				
+				<input
+					type="hidden" th:field="*{idtemporada}" class="registro" placeholder="Ingrese el ID" id="idtemporada">
+						
+				<input
+					type="hidden" th:field="*{idcategoria}" class="registro" placeholder="Ingrese el ID" id="idcategoria">
+			
+
+			
+			<input type="submit" class="btn-registrar" value="Guardar">
+			
+
+		</form>
+
+
+	</div>
+
+
+
+   <!-- Footer Section Begin -->
+    <footer th:replace="layout::footer" ></footer>
+    <!-- Footer Section End -->
+
+    <!-- Search model Begin -->
+    <div th:replace="layout::search" ></div>
+    <!-- Search model end -->
+
+<script type="text/javascript"
+		th:src="@{/script/jquery/jQuery_v3.6.0.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/script/jsweb/descuento/frmdescuento.js}" defer></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/jquery.magnific-popup.min.js}"></script>
+    <script th:src="@{/js/jquery.nice-select.min.js}"></script>
+    <script th:src="@{/js/jquery-ui.min.js}"></script>
+    <script th:src="@{/js/jquery.slicknav.js}"></script>
+    <script th:src="@{/js/owl.carousel.min.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+
+
+</body>
+</html>
